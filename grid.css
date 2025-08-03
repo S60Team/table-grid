@@ -1,0 +1,22 @@
+/* Grid: PC, NOT mobile-first */
+.grid { display: table; width: 100%; table-layout: fixed; }
+.col { display: table-cell; }
+.grid-padded .grid { border-spacing: 14px 0px; }
+.col-1 { width: 8.33333%; }
+.col-2 { width: 16.6667%; }
+.col-3 { width: 25%; }
+.col-4 { width: 33.3333%; }
+.col-5 { width: 41.6667%; }
+.col-6 { width: 50%; }
+.col-7 { width: 58.3333%; }
+.col-8 { width: 66.6667%; }
+.grid-align-middle .col { vertical-align: middle; }
+.grid-reverse { direction: rtl; }
+.grid-reverse .col { direction: ltr; }
+.highlight{display: block !important;} /* Firefox 2.0 fix */
+/* Here's code for the Smartphone: */
+@media screen and (max-width: 800px){
+  .col {display: block;}
+  .col-1, .col-2, .col-3, .col-4, .col-5, .col-6, .col-7, .col-8{ width: 100%;display: block;}
+  .grid-padded{margin-left: auto;margin-right: auto;}
+}

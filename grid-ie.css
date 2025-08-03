@@ -1,0 +1,27 @@
+/* Page design: */
+body{margin:0;padding:0;width:100%;*zoom:1;}
+body:before{content:"";display:table}
+body:after{clear:both;content:"";display:table}
+.noie{display:none}
+.container {margin-right: auto; margin-left: auto;}
+/* Grid: */
+.wrap{width:960px}
+*{-moz-box-sizing:border-box;-webkit-box-sizing:border-box;box-sizing:border-box}
+.grid{overflow:hidden;padding-left:0;}
+.grid{*zoom:1}
+.grid-padded, .grid-reverse, .grid-align-middle{ margin-left: -14px; margin-right: -14px; }
+.grid-padded .grid { border-spacing: 14px 0px; }
+.col{position:relative;float:left;width:100%;padding-right:0}
+.col-1 { width: 8.33333%; }
+.col-2 { width: 16.6667%; }
+.col-3 { width: 25%; }
+.col-4 { width: 33.3333%; }
+.col-5 { width: 41.6667%; }
+.col-6 { width: 50%; }
+.col-7 { width: 58.3333%; }
+.col-8 { width: 66.6667%; }
+.grid:after{content:"";display:table;clear:both}
+.module{margin:0 16px}
+
+/* YOU DON'T NEED THIS STYLE FOR GRIDS TO WORK! */
+.wrap { width:980px; margin:0 auto; }
