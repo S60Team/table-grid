@@ -4,6 +4,9 @@ Every grid to date uses `float`s or some `inline-block` hackery. That's so 2013 
 
 Check out the example on GitHub Pages at **<http://mdo.github.io/table-grid/>**. Clone this or download it to give it a whirl for yourself.
 
+**Browser support:**
+Internet Explorer 8+, Firefox 2.0+, Opera 9+, Safari 5.1.7+ (modified by s60team)
+
 ### Wtf
 
 This isn't a serious project really, it's just an experiment. I'm curious about the rendering performance of using `display: table;` as opposed to `float`s, `flex-box`, or `display: inline-block;`. Each option has pros or cons, but in particular I'm focused on the con part:
