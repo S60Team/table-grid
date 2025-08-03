@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Table Grid by @mdo</title>
+    <meta content="width=device-width, initial-scale=1" name="viewport"/>
+<style type="text/css">
+/* Grid: PC, NOT mobile-first */
+.grid { display: table; width: 100%; table-layout: fixed; }
+.col { display: table-cell; }
+.grid-padded .grid { border-spacing: 14px 0px; }
+.col-1 { width: 8.33333%; }
+.col-2 { width: 16.6667%; }
+.col-3 { width: 25%; }
+.col-4 { width: 33.3333%; }
+.col-5 { width: 41.6667%; }
+.col-6 { width: 50%; }
+.col-7 { width: 58.3333%; }
+.col-8 { width: 66.6667%; }
+.grid-align-middle .col { vertical-align: middle; }
+.grid-reverse { direction: rtl; }
+.grid-reverse .col { direction: ltr; }
+.highlight{display: block !important;} /* Firefox 2.0 fix */
+/* Here's code for the Smartphone: */
+@media screen and (max-width: 800px){
+  .col {display: block;}
+  .col-1, .col-2, .col-3, .col-4, .col-5, .col-6, .col-7, .col-8{ width: 100%;display: block;}
+  .grid-padded{margin-left: auto;margin-right: auto;}
+}
+</style>
+
+<!--[if lte IE 6]>
+<style type="text/css">
+  /* Page design: */
+  body{margin:0;padding:0;width:100%;*zoom:1;}
+  body:before{content:"";display:table}
+  body:after{clear:both;content:"";display:table}
+  .noie{display:none}
+  .container {margin-right: auto; margin-left: auto;}
+  /* Grid: */
+  .wrap{width:960px}
+  *{-moz-box-sizing:border-box;-webkit-box-sizing:border-box;box-sizing:border-box}
+  .grid{overflow:hidden;padding-left:0;}
+  .grid{*zoom:1}
+  .grid-padded, .grid-reverse, .grid-align-middle{ margin-left: -14px; margin-right: -14px; }
+  .grid-padded .grid { border-spacing: 14px 0px; }
+  .col{position:relative;float:left;width:100%;padding-right:0}
+  .col-1 { width: 8.33333%; }
+  .col-2 { width: 16.6667%; }
+  .col-3 { width: 25%; }
+  .col-4 { width: 33.3333%; }
+  .col-5 { width: 41.6667%; }
+  .col-6 { width: 50%; }
+  .col-7 { width: 58.3333%; }
+  .col-8 { width: 66.6667%; }
+  .grid:after{content:"";display:table;clear:both}
+  .module{margin:0 16px}
+</style>
+<![endif]-->
+<!--[if lte IE 8]>
+<style type="text/css">.wrap { width:980px; margin:0 auto; }</style>
+<![endif]-->
+<style type="text/css">
+/*
+  YOU DON'T NEED THIS STYLE FOR GRIDS TO WORK!
+  Page design: 
+*/
+body { font-size: 14px; }
+/*@media (min-width: 600px) {
+  body { font-size: 16px !important; }
+}*/
+@media screen and (-moz-images-in-menus:0) {
+  body { font-size: 14px; }
+}
+body { margin: 0px; padding-bottom: 54px;/* 18px/1.5  */
+  font: 18px /*-apple-system, BlinkMacSystemFont,*/"Segoe UI","Roboto","Oxygen","Ubuntu","Cantarell","Fira Sans","Droid Sans","Helvetica Neue",Arial,sans-serif;
+  color: rgb(85, 85, 85); text-align: center; background-color: rgb(255, 255, 255);
+}
+@media screen and (max-width: 800px){
+  body { font-size: 14px !important; }
+}
+@media screen and (min-width: 62.5rem){
+  .container { max-width: 980px; margin-right: auto; margin-left: auto; }
+}
+/*.container { max-width: 54rem; padding: 0px 18px; }*/
+a { color: rgb(24, 116, 205); text-decoration: none; }
+a:hover { color: rgb(16, 78, 139); }
+h1, h2, h3 { margin-top: 0px; margin-bottom: 9px /*0.5rem*/; font-weight: 500; line-height: 1.1; color: rgb(51, 51, 51); }
+h1 { font-size: 54px; }
+h2 { margin-top: 54px; font-size: 36px; }
+p { margin-top: 0px; margin-bottom: 18px; }
+.container > p { margin: 9px /*0.5rem*/ auto 18px; max-width: 800px; }
+hr { max-width: 100px; border-width: 0.18px 0px 0px;
+  border-style: solid none none; border-color: rgb(238, 238, 238) currentcolor currentcolor;
+  -moz-border-top-colors: none; -moz-border-right-colors: none; -moz-border-bottom-colors: none; -moz-border-left-colors: none; border-image: none; }
+code {
+  /*padding: 24px 0.54px;*/ font-family: Menlo,"Courier New",monospace; font-size: 90%; /*padding: 0.15rem 0.54rem*/
+  color: rgb(205, 51, 51); background-color: rgb(245, 245, 245); border-radius: 3px; }
+.inline-block { display: inline-block; }
+.masthead { padding: 24px 16px; font-weight: 300; color: #E7C0BF /*rgba(255, 255, 255, 0.65)*/; text-align: center; background-color: rgb(185, 74, 72); }
+.masthead a, .masthead strong { font-weight: normal; color: rgb(255, 255, 255); }
+.masthead p { font-size: 18px; } /* 1.25rem  */
+.grid-example { margin-bottom: 18px; } /* was 18px */
+.grid-example .col { line-height: 3; text-align: center; color: rgb(51, 51, 51); background-color: #FFD9D9 /*rgba(255, 0, 0, 0.15)*/; }
+.grid-example .col:nth-child(2n+1) { background-color: #FFB2B2 /*rgba(255, 0, 0, 0.3)*/; }
+.grid-example .grid-example { margin-top: 9px /*0.5rem*/; margin-bottom: 0px; }
+.grid-example.grid-align-middle { height: 200px; }
+.grid-example.grid-align-middle .col { min-height: 54px; line-height: 1.5; }
+.c { color: rgb(153, 153, 153); }
+.s { color: rgb(212, 73, 80); }
+.na { color: rgb(79, 159, 207); }
+.nt { color: rgb(47, 111, 159); }
+.highlight {text-align: left; background-color: rgb(247, 247, 249); }
+.highlight pre { padding: 0px; margin-top: 0px; margin-bottom: 0px; background-color: transparent; border: 0px none; }
+.highlight pre code { font-size: inherit; color: rgb(51, 51, 51); background-color: transparent; }
+@media screen and (max-width: 800px){
+  .wordmark a{font-size: 36px}
+}
+/* YOU DON'T NEED THIS STYLE FOR GRIDS TO WORK! */
+</style>
+  </head>
+  <body>
+
+    <div class="masthead">
+      <div class="container">
+        <h1 class="wordmark">
+          <a href="https://github.com/mdo/table-grid"><span>@</span>mdo/table-grid</a>
+        </h1>
+        <p>This is a serious-fun-dumb-useful experiment for writing a simple, <br />responsive, and mobile-compatible CSS grid system. <strong>With tables.</strong></p>
+        <p><b>IE8+, Firefox 2.0+, Opera 9+, Safari 5.1.7+ (modified by s60team)</b></p>
+<!--[if lte IE 8]>
+<p>For IE6-8 You need to use a wrapper:</p>
+<pre>&lt;div style="width:980px;margin:0 auto">
+  &lt;div class="grid">
+    &lt;div class="col col-12">12&lt;/div>
+  &lt;/div>
+&lt;/div>
+</pre>
+<![endif]-->
+      </div>
+    </div>
+
+<div class="container">
+<h2 id="premise">Premise</h2>
+
+<p>CSS grid systems are typically built in one of two ways today &ndash; <code class="highlighter-rouge">float</code>s<br />
+  or some <code class="highlighter-rouge">display: inline-block;</code> hackery.
+<br />Both are fine and well established, but <code class="highlighter-rouge">table</code>s are way cooler thanks to <code class="highlighter-rouge">table-layout</code><br />
+ and dead simple alignment.</p>
+
+<p>Let’s take a look:</p>
+
+<hr>
+
+<h2 id="typical-approach">Typical approach</h2>
+
+<p>The typical approach is to create twelve fixed-width columns in all the usual combinations.
+<br />Cool, super easy to do, and <a href="https://github.com/mdo/table-grid">@mdo/table-grid</a> supports that.
+<span class="noie"><br />There’s also a base class for ease of use that makes our columns use <code class="highlighter-rouge">display: table-cell;</code> and more.</span>
+</p>
+
+<div class="wrap">
+  <div class="grid grid-example">
+    <div class="col col-1">1</div>
+    <div class="col col-1">1</div>
+    <div class="col col-1">1</div>
+    <div class="col col-1">1</div>
+    <div class="col col-1">1</div>
+    <div class="col col-1">1</div>
+    <div class="col col-1">1</div>
+    <div class="col col-1">1</div>
+    <div class="col col-1">1</div>
+    <div class="col col-1">1</div>
+    <div class="col col-1">1</div>
+    <div class="col col-1">1</div>
+  </div>
+  <div class="grid grid-example">
+    <div class="col col-2">2</div>
+    <div class="col col-2">2</div>
+    <div class="col col-2">2</div>
+    <div class="col col-2">2</div>
+    <div class="col col-2">2</div>
+    <div class="col col-2">2</div>
+  </div>
+  <div class="grid grid-example">
+    <div class="col col-3">3</div>
+    <div class="col col-3">3</div>
+    <div class="col col-3">3</div>
+    <div class="col col-3">3</div>
+  </div>
+  <div class="grid grid-example">
+    <div class="col col-4">4</div>
+    <div class="col col-4">4</div>
+    <div class="col col-4">4</div>
+  </div>
+  <div class="grid grid-example">
+    <div class="col col-5">5</div>
+    <div class="col col-7">7</div>
+  </div>
+  <div class="grid grid-example">
+    <div class="col col-6">6</div>
+    <div class="col col-6">6</div>
+  </div>
+  <div class="grid grid-example">
+    <div class="col col-8">8</div>
+    <div class="col col-4">4</div>
+  </div>
+  <div class="grid grid-example">
+    <div class="col col-12">12</div>
+  </div>
+</div>
+
+<div class="noie">
+  <figure class="highlight">
+    <pre><code class="language-html" data-lang="html"><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"grid"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"col col-8"</span><span class="nt">&gt;</span>8<span class="nt">&lt;/div&gt;</span>
+  <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"col col-4"</span><span class="nt">&gt;</span>4<span class="nt">&lt;/div&gt;</span>
+<span class="nt">&lt;/div&gt;</span></code>
+</pre>
+  </figure>
+</div>
+
+<!--[if lte IE 8]>
+<style type="text/css">
+.highlight{text-align:center}
+pre{text-align:left;margin:0 auto;width:500px}
+</style>
+<figure class="highlight">
+  <pre><code class="language-html" data-lang="html"><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"wrap"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"grid"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"col col-8"</span><span class="nt">&gt;</span>8<span class="nt">&lt;/div&gt;</span>
+    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"col col-4"</span><span class="nt">&gt;</span>4<span class="nt">&lt;/div&gt;</span>
+  <span class="nt">&lt;/div&gt;</span>
+<span class="nt">&lt;/div&gt;</span></code>
+</pre>
+</figure>
+<![endif]-->
+
+<div class="noie">
+  <hr>
+  <h2 id="table-layout">Table layout</h2>
+
+  <p>Now comes the really fun part. With <code class="highlighter-rouge">table-layout: fixed;</code>, we can drop half our grid classes.
+  <br /><strong>Fixed table layouts render equal-width columns when no other width is set.</strong></p>
+  <div class="wrap">
+    <div class="grid grid-example">
+      <div class="col">Col</div>
+      <div class="col">Col</div>
+      <div class="col">Col</div>
+      <div class="col">Col</div>
+      <div class="col">Col</div>
+      <div class="col">Col</div>
+      <div class="col">Col</div>
+      <div class="col">Col</div>
+      <div class="col">Col</div>
+      <div class="col">Col</div>
+      <div class="col">Col</div>
+      <div class="col">Col</div>
+    </div>
+    <div class="grid grid-example">
+      <div class="col">Col</div>
+      <div class="col">Col</div>
+      <div class="col">Col</div>
+      <div class="col">Col</div>
+      <div class="col">Col</div>
+      <div class="col">Col</div>
+    </div>
+    <div class="grid grid-example">
+      <div class="col">Column</div>
+      <div class="col">Column</div>
+      <div class="col">Column</div>
+      <div class="col">Column</div>
+    </div>
+    <div class="grid grid-example">
+      <div class="col">Column</div>
+      <div class="col">Column</div>
+      <div class="col">Column</div>
+    </div>
+    <div class="grid grid-example">
+      <div class="col">Column</div>
+      <div class="col">Column</div>
+    </div>
+    <div class="grid grid-example">
+      <div class="col">Column</div>
+    </div>
+  </div>
+  <figure class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"grid"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"col"</span><span class="nt">&gt;</span>Column<span class="nt">&lt;/div&gt;</span>
+  <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"col"</span><span class="nt">&gt;</span>Column<span class="nt">&lt;/div&gt;</span>
+  <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"col"</span><span class="nt">&gt;</span>Column<span class="nt">&lt;/div&gt;</span>
+<span class="nt">&lt;/div&gt;</span></code></pre></figure>
+</div>
+
+
+<hr>
+
+<h2 id="nested">Nested</h2>
+
+
+<p>
+  <span class="noie">With or without those extra classes, table grids are easily nestable.
+    <br />Just place a <code class="highlighter-rouge">.grid</code> with any combination of columns within an existing <code class="highlighter-rouge">.col</code>.
+  </span>
+  <!--[if lte IE 8]>
+    <br />Table grids are easily nestable. Just place a <code class="highlighter-rouge">.grid</code> with any combination of columns within an existing <code class="highlighter-rouge">.col</code>.
+  <![endif]-->
+</p>
+
+<div class="wrap">
+  <div class="grid grid-example noie">
+    <div class="col col-8">
+      8
+      <div class="grid grid-example">
+        <div class="col" style="background: #FF7C7C">Column</div>
+        <div class="col" style="background: #F99393">Column</div>
+      </div>
+    </div>
+    <div class="col col-4">4</div>
+  </div>
+</div>
+<!--[if lte IE 6]>
+<div class="wrap">
+  <div class="grid grid-example">
+    <div class="col col-8" style="background-color:#FFB9B9">
+      8
+      <div class="grid grid-example">
+        <div class="col col-6" style="background: #FF7C7C">6</div>
+        <div class="col col-6" style="background: #F99393">6</div>
+      </div>
+    </div>
+    <div class="col col-4">4</div>
+  </div>
+</div>
+<![endif]-->
+
+<figure class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"grid"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"col col-8"</span><span class="nt">&gt;</span>
+    8
+    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"grid"</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"col"</span><span class="nt">&gt;</span>Column<span class="nt">&lt;/div&gt;</span>
+      <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"col"</span><span class="nt">&gt;</span>Column<span class="nt">&lt;/div&gt;</span>
+    <span class="nt">&lt;/div&gt;</span>
+  <span class="nt">&lt;/div&gt;</span>
+  <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"col col-4"</span><span class="nt">&gt;</span>4<span class="nt">&lt;/div&gt;</span>
+<span class="nt">&lt;/div&gt;</span></code></pre></figure>
+
+<hr>
+
+<h2 id="grids-with-gutters">Grids with gutters</h2>
+
+<div class="noie">
+  <p>Wrap the <code class="highlighter-rouge">.grid</code> with <code class="highlighter-rouge">div.grid-padded</code> to add gutters between columns.
+  <br />Works on any column, even the  <code class="highlighter-rouge">width</code>-less base class.</p>
+
+  <p>The wrapping <code class="highlighter-rouge">.grid-padded</code> applies negative horizontal margins to account for the gutters.
+  <br />Tables that are 100% wide cannot have negative horizontal margins directly applied to them, so we must use a wrapper.</p>
+</div>
+<!--[if lte IE 8]><br /><![endif]-->
+
+<div class="noie">
+  <div class="wrap">
+    <div class="grid-padded">
+      <div class="grid grid-example">
+        <div class="col">Column</div>
+        <div class="col">Column</div>
+        <div class="col">Column</div>
+      </div>
+    </div>
+    <div class="grid-padded">
+      <div class="grid grid-example">
+        <div class="col">Column</div>
+        <div class="col">Column</div>
+      </div>
+    </div>
+
+    <div class="grid-padded">
+      <div class="grid grid-example">
+        <div class="col col-8">8</div>
+        <div class="col col-4">4</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="noie">
+  <figure class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"wrap"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"grid-padded"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"grid"</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"col"</span><span class="nt">&gt;</span>Column<span class="nt">&lt;/div&gt;</span>
+      <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"col"</span><span class="nt">&gt;</span>Column<span class="nt">&lt;/div&gt;</span>
+    <span class="nt">&lt;/div&gt;</span>
+  <span class="nt">&lt;/div&gt;</span>
+<span class="nt">&lt;/div&gt;</span></code></pre></figure>
+</div>
+
+<!--[if lte IE 6]>
+<style type="text/css">
+.grid-example .col-ie {background-color:#fff}
+.grid-example .col {background-color:#FFB9B9}/* Use this to show gutters */
+.grid-example .col .module {background-color: #FFD9D9}
+</style>
+<br />
+<div class="wrap">
+  <div class="grid grid-example">
+    <div class="col col-4 col-ie">
+      <div class="module">4</div>
+    </div>
+    <div class="col col-4 col-ie">
+      <div class="module">4</div>
+    </div>
+    <div class="col col-4 col-ie">
+      <div class="module">4</div>
+    </div>
+  </div>
+</div>
+
+<figure class="highlight"><pre><code class="language-html" data-lang="html">
+<span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"wrap"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"grid"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"col col-4"</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"module"</span><span class="nt">&gt;</span> 4 <span class="nt">&lt;/div&gt;</span>
+    <span class="nt">&lt;/div&gt;</span>
+    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"col col-4"</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"module"</span><span class="nt">&gt;</span> 4 <span class="nt">&lt;/div&gt;</span>
+    <span class="nt">&lt;/div&gt;</span>
+    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"col col-4"</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"module"</span><span class="nt">&gt;</span> 4 <span class="nt">&lt;/div&gt;</span>
+    <span class="nt">&lt;/div&gt;</span>
+  <span class="nt">&lt;/div&gt;</span>
+<span class="nt">&lt;/div&gt;</span></code></pre></figure>
+<![endif]-->
+
+
+<div class="noie">
+  <hr>
+
+  <h2 id="vertically-center-content">Vertically center content</h2>
+
+  <p>Add the <code class="highlighter-rouge">.grid-align-middle</code> class to the <code class="highlighter-rouge">.grid</code> and voilà.
+  <br />Requires the use of <code class="highlighter-rouge">inline</code>, <code class="highlighter-rouge">inline-block</code>, or <code class="highlighter-rouge">table</code> based elements within a column.<br />
+  IE6 needs a wrapper.</p>
+
+  <div class="wrap">
+    <div class="grid-padded">
+      <div class="grid grid-align-middle grid-example">
+        <div class="col">
+          Free-form text wraps while remaining vertically centered.
+        </div>
+        <div class="col">
+          Nested columns center, too.
+          <div class="grid-padded">
+            <div class="grid grid-example">
+              <div class="col" style="background: #FF9797">Column</div>
+              <div class="col" style="background: #FFB9B9">Column</div>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="inline-block">A `div` with `inline-block` works great, too.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <figure class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"grid-padded"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"grid grid-align-middle"</span><span class="nt">&gt;</span>
+    <span class="c">&lt;!-- Columns --&gt;</span>
+  <span class="nt">&lt;/div&gt;</span>
+<span class="nt">&lt;/div&gt;</span></code></pre></figure>
+</div>
+
+<div class="noie">
+  <hr>
+
+  <h2 id="reverse-column-sorting">Reverse column sorting</h2>
+
+  <p>Add the <code class="highlighter-rouge">.grid-reverse</code> class to the <code class="highlighter-rouge">.grid</code> table and you’ll have reversed columns.
+  <br />In the example below, <strong>Column 1</strong> is first in the markup, but appears last when rendered.
+  <br />And because our table grid is responsive, they’re stacked in order on mobile, too.</p>
+<div class="wrap">
+  <div class="grid-padded">
+    <div class="grid grid-reverse grid-example">
+      <div class="col">Column 1</div>
+      <div class="col">Column 2</div>
+    </div>
+  </div>
+</div>
+  <figure class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"grid-padded"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"grid grid-reverse"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"col"</span><span class="nt">&gt;</span>Column 1<span class="nt">&lt;/div&gt;</span>
+    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"col"</span><span class="nt">&gt;</span>Column 2<span class="nt">&lt;/div&gt;</span>
+  <span class="nt">&lt;/div&gt;</span>
+<span class="nt">&lt;/div&gt;</span></code></pre></figure>
+</div>
+
+<hr>
+
+<h2 id="download">Download</h2>
+
+<p>Head to GitHub to <a href="https://github.com/mdo/table-grid">download @mdo/table-grid</a> (includes source Sass and docs).</p>
+
+<hr>
+
+<p>Shoutout tables.</p>
+
+<p>&lt;3</p>
+
+</div>
+
+</body>
+</html>
